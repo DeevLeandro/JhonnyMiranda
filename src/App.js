@@ -499,13 +499,10 @@ export default function App() {
         <div className="jm-hero-content">
           <div ref={heroEyebrowRef} className="jm-hero-eyebrow"></div>
           <h1 ref={heroHeadlineRef} className="jm-hero-headline">
-            Beleza que não<br />
+            Beleza não<br />
             <em>pede licença</em><br />
             para ser notada.
           </h1>
-          <p ref={heroTaglineRef} className="jm-hero-tagline">
-            Cada fio, uma intenção. Cada visita, uma transformação.
-          </p>
           <div ref={heroActionsRef} className="jm-hero-actions">
             <a href="#contato" className="jm-btn jm-btn-primary">Agendar Consulta</a>
             <button className="jm-btn jm-btn-ghost" onClick={() => wa()}>WhatsApp</button>
@@ -568,7 +565,7 @@ export default function App() {
         <div ref={sobreMediaRef} className="jm-sobre-media">
           <div ref={sobreParallaxRef} className="jm-sobre-img-parallax">
             <img
-              src="images/cadeira.jpg"
+              src="images/Cadeira.jpg"
               alt="Studio Jhonny Miranda"
               loading="lazy"
               className="jm-sobre-img"
