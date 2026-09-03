@@ -10,38 +10,77 @@ const WHATSAPP = '5547996235368';
 const INSTAGRAM = 'https://www.instagram.com/studio_jhonny_miranda_camboriu/';
 const MAPS_URL = 'https://www.google.com/maps/search/Rua+Tocantins+216+Vila+Areias+Camboriú+SC';
 
+// ── VÍDEO DO HERO ──
+// Exporte curto (6–12s), mudo, em loop, MP4/H.264, 720p–1080p, ideal < ~5 MB.
+// HERO_POSTER = 1º frame do vídeo como .jpg (aparece instantâneo + é o fallback).
+const HERO_VIDEO  = 'images/hero.mp4';
+const HERO_POSTER = 'images/hero-poster.jpg';
+
 const videos = [
   { id: 1, src: 'images/video1.mp4', poster: 'images/video1-poster.jpg', label: 'Resultado' },
   { id: 2, src: 'images/video2.mp4', poster: 'images/video2-poster.jpg', label: 'Transformação' },
   { id: 3, src: 'images/video3.mp4', poster: 'images/video3-poster.jpg', label: 'Antes & Depois' },
+  { id: 4, src: 'images/video4.mp4', poster: 'images/video4-poster.jpg', label: 'Antes & Depois' },
+  { id: 5, src: 'images/video5.mp4', poster: 'images/video5-poster.jpg', label: 'Antes & Depois' },
+  { id: 6, src: 'images/video6.mp4', poster: 'images/video6-poster.jpg', label: 'Antes & Depois' },
 ];
 
+// SERVIÇOS AGENDÁVEIS — cada um usa `imgs` (array).
+// 2+ fotos: troca no hover (desktop) / tap (mobile). 1 foto: fica estática.
 const servicos = [
   {
     id: 1, title: 'Corte & Styling',
     desc: 'Cortes personalizados que valorizam seu rosto e estilo de vida. Do clássico ao contemporâneo.',
-    img: 'images/Styling.jpg',
+    imgs: ['images/corte-1.jpg', 'images/corte-2.jpeg'],
     wa: 'Olá!%20Quero%20agendar%20um%20corte.',
   },
   {
     id: 2, title: 'Coloração',
-    desc: 'Técnicas exclusivas em coloração, mechas e ombré. Cores vibrantes e naturais que duram mais.',
-    img: 'images/Coloracao.jpg',
+    desc: 'Cobertura de brancos, tonalização e cores globais. Resultado uniforme, natural e duradouro.',
+    imgs: ['images/coloracao-1.jpeg', 'images/coloracao-2.jpeg'],
     wa: 'Olá!%20Quero%20saber%20sobre%20coloração.',
   },
   {
-    id: 3, title: 'Tratamentos Capilares',
-    desc: 'Hidratações profundas, botox capilar e reconstrução. Seus cabelos, renovados de dentro para fora.',
-    img: 'images/Tratamentos.jpg',
-    wa: 'Olá!%20Quero%20saber%20sobre%20tratamentos.',
+    id: 3, title: 'Mechas & Luzes',
+    desc: 'Balayage, ombré, morena iluminada e loiros. Iluminação sob medida para o seu tom de pele.',
+    imgs: ['images/mechas-1.jpg', 'images/mechas-2.jpeg'],
+    wa: 'Olá!%20Quero%20saber%20sobre%20mechas.',
   },
   {
     id: 4, title: 'Alisamento & Progressiva',
     desc: 'Técnicas avançadas para cabelos lisos, sem frizz e com brilho extraordinário por muito mais tempo.',
-    img: 'images/Progressiva.jpg',
+    imgs: ['images/progressiva-1.jpg', 'images/progressiva-2.jpeg'],
     wa: 'Olá!%20Quero%20saber%20sobre%20alisamento.',
   },
- 
+  {
+    id: 5, title: 'Tratamentos Capilares',
+    desc: 'Hidratações profundas, botox capilar e reconstrução. Seus cabelos, renovados de dentro para fora.',
+    imgs: ['images/tratamento-1.jpg', 'images/tratamento-2.jpeg'],
+    wa: 'Olá!%20Quero%20saber%20sobre%20tratamentos.',
+  },
+  {
+    id: 6, title: 'Maquiagem',
+    desc: 'Make para dia, festa e noiva. Realçamos a sua beleza com técnica e produtos de alta fixação.',
+    imgs: ['images/maquiagem-1.jpeg', 'images/maquiagem-2.jpeg', 'images/maquiagem-3.jpeg' ],
+    wa: 'Olá!%20Quero%20saber%20sobre%20maquiagem.',
+  },
+  {
+    id: 7, title: 'Manicure & Pedicure',
+    desc: 'Unhas impecáveis com esmaltação tradicional, em gel e nail art. Cuidado completo para mãos e pés.',
+    imgs: ['images/manicure-1.jpg', 'images/manicure-2.jpg'],
+    wa: 'Olá!%20Quero%20saber%20sobre%20manicure.',
+  },
+];
+
+// PORTFÓLIO — as fotos nomeadas de looks/transformações.
+// Adicione quantos objetos quiser aqui. Mais fotos de um look = mais itens no `imgs`.
+const portfolio = [
+  { id: 1, label: 'Morena iluminada', tag: 'Mechas', imgs: ['images/morena-iluminada-1.jpeg', 'images/morena-iluminada-2.jpeg'] },
+  { id: 2, label: 'Mechas, tratamento e corte', tag: 'Combo', imgs: ['images/mechas-trat-corte-1.jpeg', 'images/mechas-trat-corte-2.jpeg'] },
+  { id: 3, label: 'Mechas e corte', tag: 'Combo', imgs: ['images/mechas-corte-1.jpeg', 'images/mechas-corte-2.jpeg'] },
+  { id: 4, label: 'Corte Chanel', tag: 'Corte', imgs: ['images/chanel-1.jpeg', 'images/chanel-2.jpeg'] },
+  { id: 5, label: 'Corte pixie', tag: 'Corte', imgs: ['images/pixie-1.jpeg'] },
+  { id: 6, label: 'Maquiagem', tag: 'Maquiagem', imgs: ['images/maquiagem-2.jpeg', 'images/maquiagem-4.jpeg','images/maquiagem-3.jpeg' ] },
 ];
 
 // Faixa de manifesto que substitui os números
@@ -157,6 +196,154 @@ function VideoCard({ v, cardRef }) {
   );
 }
 
+// ─── SERVIÇO CARD ─────────────────────────────────────────────────────────────
+// Troca de imagem: hover no desktop (pointer fine), tap no mobile (touch).
+// 2 fotos = alterna. 3+ fotos = cicla no hover. 1 foto = estática.
+
+function ServicoCard({ s, cardRef }) {
+  const imgs = s.imgs && s.imgs.length ? s.imgs : (s.img ? [s.img] : []);
+  const multi = imgs.length > 1;
+  const [idx, setIdx] = useState(0);
+  const timer = useRef(null);
+  const canHover = useRef(
+    typeof window !== 'undefined' &&
+    window.matchMedia('(hover: hover) and (pointer: fine)').matches
+  );
+
+  const clearTimer = () => {
+    if (timer.current) { clearInterval(timer.current); timer.current = null; }
+  };
+
+  const handleEnter = () => {
+    if (!multi || !canHover.current) return;
+    setIdx(1);
+    if (imgs.length > 2) {
+      timer.current = setInterval(() => setIdx(p => (p + 1) % imgs.length), 1400);
+    }
+  };
+  const handleLeave = () => {
+    if (!canHover.current) return;
+    clearTimer();
+    setIdx(0);
+  };
+  const handleTap = () => {
+    if (!multi || canHover.current) return; // mobile: tap cicla pelas fotos
+    setIdx(p => (p + 1) % imgs.length);
+  };
+
+  useEffect(() => () => clearTimer(), []);
+
+  return (
+    <div className="jm-servico-card" ref={cardRef}>
+      <div
+        className="jm-servico-img-wrap"
+        onMouseEnter={handleEnter}
+        onMouseLeave={handleLeave}
+        onClick={handleTap}
+        style={multi && !canHover.current ? { cursor: 'pointer' } : undefined}
+      >
+        <div className="jm-servico-img-stack">
+          {imgs.map((src, i) => (
+            <img
+              key={i}
+              src={src}
+              alt={`${s.title}${i ? ' ' + (i + 1) : ''}`}
+              loading="lazy"
+              className={`jm-servico-img${i === idx ? ' active' : ''}`}
+            />
+          ))}
+        </div>
+        {multi && (
+          <div className="jm-servico-dots">
+            {imgs.map((_, i) => (
+              <span key={i} className={`jm-servico-dot${i === idx ? ' active' : ''}`} />
+            ))}
+          </div>
+        )}
+      </div>
+      <div className="jm-servico-body">
+        <h3 className="jm-servico-title">{s.title}</h3>
+        <p className="jm-servico-desc">{s.desc}</p>
+        <a
+          href={`https://wa.me/${WHATSAPP}?text=${s.wa}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="jm-servico-cta"
+        >Agendar</a>
+      </div>
+    </div>
+  );
+}
+
+// ─── PORTFÓLIO CARD ───────────────────────────────────────────────────────────
+// Mesma mecânica de troca de imagem, layout de galeria (foto cheia + legenda).
+
+function PortfolioCard({ p, cardRef }) {
+  const imgs = p.imgs && p.imgs.length ? p.imgs : [];
+  const multi = imgs.length > 1;
+  const [idx, setIdx] = useState(0);
+  const timer = useRef(null);
+  const canHover = useRef(
+    typeof window !== 'undefined' &&
+    window.matchMedia('(hover: hover) and (pointer: fine)').matches
+  );
+
+  const clearTimer = () => {
+    if (timer.current) { clearInterval(timer.current); timer.current = null; }
+  };
+  const enter = () => {
+    if (!multi || !canHover.current) return;
+    setIdx(1);
+    if (imgs.length > 2) timer.current = setInterval(() => setIdx(v => (v + 1) % imgs.length), 1400);
+  };
+  const leave = () => {
+    if (!canHover.current) return;
+    clearTimer();
+    setIdx(0);
+  };
+  const tap = () => {
+    if (!multi || canHover.current) return;
+    setIdx(v => (v + 1) % imgs.length);
+  };
+
+  useEffect(() => () => clearTimer(), []);
+
+  return (
+    <div
+      className="jm-porto-card"
+      ref={cardRef}
+      onMouseEnter={enter}
+      onMouseLeave={leave}
+      onClick={tap}
+      style={multi && !canHover.current ? { cursor: 'pointer' } : undefined}
+    >
+      <div className="jm-porto-stack">
+        {imgs.map((src, i) => (
+          <img
+            key={i}
+            src={src}
+            alt={p.label}
+            loading="lazy"
+            className={`jm-porto-img${i === idx ? ' active' : ''}`}
+          />
+        ))}
+      </div>
+      <div className="jm-porto-overlay" />
+      {p.tag && <span className="jm-porto-tag">{p.tag}</span>}
+      <div className="jm-porto-caption">
+        <span className="jm-porto-label">{p.label}</span>
+        {multi && (
+          <div className="jm-porto-dots">
+            {imgs.map((_, i) => (
+              <span key={i} className={`jm-porto-dot${i === idx ? ' active' : ''}`} />
+            ))}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
 // ─── APP ──────────────────────────────────────────────────────────────────────
 
 export default function App() {
@@ -170,6 +357,7 @@ export default function App() {
   // refs animações
   const headerRef = useRef(null);
   const heroBgRef = useRef(null);
+  const heroVideoRef = useRef(null);
   const heroEyebrowRef = useRef(null);
   const heroHeadlineRef = useRef(null);
   const heroTaglineRef = useRef(null);
@@ -181,6 +369,11 @@ export default function App() {
   const servicoLabelRef = useRef(null);
   const servicoHeadingRef = useRef(null);
   const servicoCardRefs = useRef([]);
+  // ── refs Portfólio ──
+  const portoRef = useRef(null);
+  const portoLabelRef = useRef(null);
+  const portoHeadingRef = useRef(null);
+  const portoCardRefs = useRef([]);
   const sobreMediaRef = useRef(null);
   const sobreParallaxRef = useRef(null);
   const sobreContentRef = useRef(null);
@@ -236,7 +429,7 @@ export default function App() {
       });
       [...sobreParRefs.current, ...pilarRefs.current, ...localCardRefs.current,
         ...servicoCardRefs.current, ...depoCardRefs.current, ...videoCardRefs.current,
-        ...manifestoItemRefs.current].forEach(el => {
+        ...manifestoItemRefs.current, ...portoCardRefs.current].forEach(el => {
         if (el) { el.style.opacity = '1'; el.style.transform = 'none'; }
       });
       return;
@@ -287,13 +480,33 @@ export default function App() {
             opacity: 1, x: 0, duration: 1, delay: i * 0.08, ease: 'power4.out',
             scrollTrigger: { trigger: card, start: 'top 90%', end: 'top 60%', scrub: 1 }
           });
-          const img = card.querySelector('.jm-servico-img');
-          if (img && !isMobile) {
-            gsap.to(img, {
-              yPercent: -12, ease: 'none',
+          // parallax mira o STACK (não a img individual), senão desalinha ao trocar de foto
+          const stack = card.querySelector('.jm-servico-img-stack');
+          if (stack && !isMobile) {
+            gsap.to(stack, {
+              yPercent: -8, ease: 'none',
               scrollTrigger: { trigger: card, start: 'top bottom', end: 'bottom top', scrub: 1.5 }
             });
           }
+        });
+      }
+
+      // 4b. PORTFÓLIO
+      if (portoRef.current) {
+        gsap.to(portoLabelRef.current, {
+          opacity: 1, y: 0, duration: 1, ease: 'power4.out',
+          scrollTrigger: { trigger: portoRef.current, start: 'top 80%', end: 'top 55%', scrub: 1 }
+        });
+        gsap.to(portoHeadingRef.current, {
+          opacity: 1, y: 0, duration: 1.2, ease: 'power4.out',
+          scrollTrigger: { trigger: portoRef.current, start: 'top 75%', end: 'top 50%', scrub: 1 }
+        });
+        portoCardRefs.current.forEach((card, i) => {
+          if (!card) return;
+          gsap.to(card, {
+            opacity: 1, y: 0, duration: 1, delay: i * 0.08, ease: 'power4.out',
+            scrollTrigger: { trigger: card, start: 'top 90%', end: 'top 60%', scrub: 1.2 }
+          });
         });
       }
 
@@ -463,7 +676,7 @@ export default function App() {
       <header ref={headerRef} className={`jm-header${isScrolled ? ' scrolled' : ''}`}>
         <div className="jm-header-inner">
           <div className="jm-header-title">
-            Jhonny <span>Miranda</span>
+          Studio Jhonny <span>Miranda</span>
           </div>
 
           <button
@@ -475,7 +688,7 @@ export default function App() {
           </button>
 
           <nav className={`jm-nav${isMenuOpen ? ' open' : ''}`}>
-            {[['#inicio','Início'],['#servicos','Serviços'],['#sobre','Studio'],
+            {[['#inicio','Início'],['#servicos','Serviços'],['#portfolio','Portfólio'],['#sobre','Studio'],
               ['#videos','Vídeos'],['#depoimentos','Clientes'],['#localizacao','Localização']].map(([href, label]) => (
               <a key={href} href={href} className="jm-nav-link" onClick={closeMenu}>{label}</a>
             ))}
@@ -490,19 +703,27 @@ export default function App() {
 
       {/* ── HERO ── */}
       <section className="jm-hero" id="inicio">
-        <div
-          ref={heroBgRef}
-          className="jm-hero-bg"
-          style={{ backgroundImage: "url('https://images.unsplash.com/photo-1560066984-138dadb4c035?w=1600&q=80')" }}
-        />
+        <div ref={heroBgRef} className="jm-hero-bg">
+          <video
+            ref={heroVideoRef}
+            className="jm-hero-video"
+            src={HERO_VIDEO}
+            poster={HERO_POSTER}
+            autoPlay={!prefersReducedMotion}
+            muted
+            loop
+            playsInline
+            preload="auto"
+            aria-hidden="true"
+          />
+        </div>
         <div className="jm-hero-overlay" />
         <div className="jm-hero-content">
           <div ref={heroEyebrowRef} className="jm-hero-eyebrow"></div>
           <h1 ref={heroHeadlineRef} className="jm-hero-headline">
-            Beleza não<br />
-            <em>pede licença</em><br />
-            para ser notada.
-          </h1>
+              Mais que um salão,<br />
+              <em>um lugar para você</em>
+            </h1>
           <div ref={heroActionsRef} className="jm-hero-actions">
             <a href="#contato" className="jm-btn jm-btn-primary">Agendar Consulta</a>
             <button className="jm-btn jm-btn-ghost" onClick={() => wa()}>WhatsApp</button>
@@ -537,25 +758,28 @@ export default function App() {
         </div>
         <div className="jm-servicos-scroll">
           {servicos.map((s, i) => (
-            <div
+            <ServicoCard
               key={s.id}
-              className="jm-servico-card"
-              ref={el => servicoCardRefs.current[i] = el}
-            >
-              <div className="jm-servico-img-wrap">
-                <img src={s.img} alt={s.title} loading="lazy" className="jm-servico-img" />
-              </div>
-              <div className="jm-servico-body">
-                <h3 className="jm-servico-title">{s.title}</h3>
-                <p className="jm-servico-desc">{s.desc}</p>
-                <a
-                  href={`https://wa.me/${WHATSAPP}?text=${s.wa}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="jm-servico-cta"
-                >Agendar</a>
-              </div>
-            </div>
+              s={s}
+              cardRef={el => servicoCardRefs.current[i] = el}
+            />
+          ))}
+        </div>
+      </section>
+
+      {/* ── PORTFÓLIO ── */}
+      <section ref={portoRef} className="jm-porto-section" id="portfolio">
+        <div ref={portoLabelRef} className="jm-section-label">Portfólio</div>
+        <div className="jm-section-heading-wrap">
+          <h2 ref={portoHeadingRef} className="jm-section-heading">Transformações <em>reais</em></h2>
+        </div>
+        <div className="jm-porto-grid">
+          {portfolio.map((p, i) => (
+            <PortfolioCard
+              key={p.id}
+              p={p}
+              cardRef={el => portoCardRefs.current[i] = el}
+            />
           ))}
         </div>
       </section>
@@ -565,7 +789,7 @@ export default function App() {
         <div ref={sobreMediaRef} className="jm-sobre-media">
           <div ref={sobreParallaxRef} className="jm-sobre-img-parallax">
             <img
-              src="images/Cadeira.jpg"
+              src="images/Sobre.jpeg"
               alt="Studio Jhonny Miranda"
               loading="lazy"
               className="jm-sobre-img"
@@ -573,30 +797,32 @@ export default function App() {
           </div>
         </div>
 
-        <div ref={sobreContentRef} className="jm-sobre-content">
-          <div className="jm-section-label">Studio</div>
-          <h2 className="jm-section-heading">Um espaço criado <em>para você</em></h2>
-          <p ref={el => sobreParRefs.current[0] = el} className="jm-sobre-p">
-            O <strong>Studio Jhonny Miranda</strong> nasceu do desejo de criar um espaço onde beleza
-            e acolhimento andam juntos. Em Camboriú - SC, somos referência em transformações capilares
-            que respeitam a identidade de cada cliente.
-          </p>
-          <p ref={el => sobreParRefs.current[1] = el} className="jm-sobre-p">
-            Com técnicas modernas e produtos de alta performance, cada atendimento é único.
-            Você não é mais um cliente — você é a razão de cada detalhe que pensamos neste studio.
-          </p>
-          <div className="jm-sobre-pilares">
-            {pilares.map((p, i) => (
-              <div key={i} ref={el => pilarRefs.current[i] = el} className="jm-pilar">
-                <div>
-                  <h4 className="jm-pilar-title">{p.title}</h4>
-                  <p className="jm-pilar-desc">{p.desc}</p>
-                </div>
+      <div ref={sobreContentRef} className="jm-sobre-content">
+        <div className="jm-section-label">Studio</div>
+        <h2 className="jm-section-heading">Um espaço criado <em>para você</em></h2>
+        <p ref={el => sobreParRefs.current[0] = el} className="jm-sobre-p">
+          Desde <strong>2012</strong>, o <strong>Studio Jhonny Miranda</strong> é referência em Camboriú - SC 
+          quando o assunto é beleza e transformação capilar. Mais do que um salão, somos um espaço de 
+          acolhimento, onde cada cliente encontra um atendimento personalizado e feito com excelência.
+        </p>
+        <p ref={el => sobreParRefs.current[1] = el} className="jm-sobre-p">
+          Comandado por <strong>João Miranda</strong>, profissional com <strong>formação acadêmica </strong> 
+           e especialização em técnicas modernas, o studio conduz cada procedimento com segurança, técnica 
+          e olhar atento aos detalhes. Utilizamos produtos de alta performance para garantir resultados 
+          que respeitam a identidade e a saúde dos seus cabelos.
+        </p>
+        <div className="jm-sobre-pilares">
+          {pilares.map((p, i) => (
+            <div key={i} ref={el => pilarRefs.current[i] = el} className="jm-pilar">
+              <div>
+                <h4 className="jm-pilar-title">{p.title}</h4>
+                <p className="jm-pilar-desc">{p.desc}</p>
               </div>
-            ))}
-          </div>
-          <a href="#contato" className="jm-btn jm-btn-dark">Conhecer o Studio</a>
+            </div>
+          ))}
         </div>
+        <a href="#contato" className="jm-btn jm-btn-dark">Conhecer o Studio</a>
+      </div>
       </section>
 
       {/* ── VÍDEOS ── */}
@@ -722,11 +948,12 @@ export default function App() {
                   <select name="servico" required value={formData.servico} onChange={handleChange}>
                     <option value="">Selecione...</option>
                     <option>Corte & Styling</option>
-                    <option>Coloração / Mechas</option>
-                    <option>Tratamentos Capilares</option>
+                    <option>Coloração</option>
+                    <option>Mechas & Luzes</option>
                     <option>Alisamento & Progressiva</option>
-                    <option>Manicure & Pedicure</option>
+                    <option>Tratamentos Capilares</option>
                     <option>Maquiagem</option>
+                    <option>Manicure & Pedicure</option>
                     <option>Outro</option>
                   </select>
                 </div>
@@ -759,11 +986,11 @@ export default function App() {
       <footer ref={footerRef} className="jm-footer">
         <div className="jm-footer-inner">
           <div className="jm-footer-brand">
-            <div className="jm-footer-title">Jhonny <span>Miranda</span></div>
+            <div className="jm-footer-title">Studio Jhonny <span>Miranda</span></div>
             <p className="jm-footer-tagline">Studio de Beleza · Camboriú SC</p>
           </div>
           <div className="jm-footer-links">
-            {[['#inicio','Início'],['#servicos','Serviços'],['#sobre','Studio'],
+            {[['#inicio','Início'],['#servicos','Serviços'],['#portfolio','Portfólio'],['#sobre','Studio'],
               ['#videos','Vídeos'],['#depoimentos','Clientes'],['#localizacao','Localização'],['#contato','Agendar']].map(([href,label]) => (
               <a key={href} href={href}>{label}</a>
             ))}

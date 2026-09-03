@@ -404,12 +404,36 @@ input, select, textarea { font-size: 16px !important; }
   box-shadow: 0 20px 50px rgba(200, 168, 87, 0.18);
   border-color: var(--gold);
 }
-.jm-servico-img-wrap { height: 240px; overflow: hidden; }
-.jm-servico-img {
-  width: 100%; height: 100%; object-fit: cover;
-  transition: transform 0.7s var(--ease-out);
+
+/* imagem dos serviços — stack com crossfade + parallax no wrapper */
+.jm-servico-img-wrap { position: relative; height: 240px; overflow: hidden; }
+.jm-servico-img-stack {
+  position: absolute; top: -10%; left: 0; right: 0; height: 120%;
+  will-change: transform;
 }
-.jm-servico-card:hover .jm-servico-img { transform: scale(1.07); }
+.jm-servico-img {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%; object-fit: cover;
+  opacity: 0;
+  transition: opacity 0.55s var(--ease-out), transform 0.7s var(--ease-out);
+}
+.jm-servico-img.active { opacity: 1; }
+.jm-servico-card:hover .jm-servico-img.active { transform: scale(1.07); }
+
+/* indicador de fotos (aparece só quando há 2+) */
+.jm-servico-dots {
+  position: absolute; bottom: 12px; left: 50%;
+  transform: translateX(-50%);
+  display: flex; gap: 6px; z-index: 2; pointer-events: none;
+}
+.jm-servico-dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: rgba(255,255,255,0.55);
+  box-shadow: 0 1px 4px rgba(0,0,0,0.4);
+  transition: all 0.3s var(--ease-out);
+}
+.jm-servico-dot.active { width: 18px; border-radius: 4px; background: var(--gold-light); }
+
 .jm-servico-body { padding: 28px 26px 26px; }
 .jm-servico-title {
   font-family: 'Cormorant Garamond', serif;
@@ -426,6 +450,48 @@ input, select, textarea { font-size: 16px !important; }
   transition: letter-spacing 0.3s; display: inline-block;
 }
 .jm-servico-card:hover .jm-servico-cta { letter-spacing: 0.1em; }
+
+/* ── PORTFÓLIO ── */
+.jm-porto-section { padding: 110px 40px; background: var(--cream-light); overflow: hidden; }
+.jm-porto-grid {
+  max-width: 1200px; margin: 0 auto;
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px;
+}
+.jm-porto-card {
+  position: relative; aspect-ratio: 3 / 4; border-radius: 18px; overflow: hidden;
+  border: 1px solid rgba(200,168,87,0.12); background: #1a1a1a;
+  opacity: 0; transform: translateY(40px);
+  transition: transform 0.4s var(--ease-out), box-shadow 0.4s, border-color 0.4s;
+}
+.jm-porto-card:hover { transform: translateY(-6px); border-color: var(--gold); box-shadow: 0 20px 50px rgba(200,168,87,0.18); }
+.jm-porto-stack { position: absolute; inset: 0; }
+.jm-porto-img {
+  position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
+  opacity: 0; transition: opacity 0.55s var(--ease-out), transform 0.9s var(--ease-out);
+}
+.jm-porto-img.active { opacity: 1; }
+.jm-porto-card:hover .jm-porto-img.active { transform: scale(1.06); }
+.jm-porto-overlay {
+  position: absolute; inset: 0; z-index: 1; pointer-events: none;
+  background: linear-gradient(to top, rgba(0,0,0,0.72) 0%, rgba(0,0,0,0.1) 45%, transparent 70%);
+}
+.jm-porto-tag {
+  position: absolute; top: 14px; left: 14px; z-index: 2;
+  font-family: 'DM Mono', monospace; font-size: 0.66rem; letter-spacing: 0.08em;
+  text-transform: uppercase; color: var(--ink);
+  background: var(--gold-light); padding: 4px 12px; border-radius: 20px;
+}
+.jm-porto-caption {
+  position: absolute; bottom: 0; left: 0; right: 0; z-index: 2;
+  padding: 18px 20px; display: flex; align-items: center; justify-content: space-between; gap: 10px;
+}
+.jm-porto-label {
+  font-family: 'Cormorant Garamond', serif; font-size: 1.15rem; font-weight: 500;
+  color: var(--white); line-height: 1.2;
+}
+.jm-porto-dots { display: flex; gap: 5px; flex-shrink: 0; }
+.jm-porto-dot { width: 6px; height: 6px; border-radius: 50%; background: rgba(255,255,255,0.5); transition: all 0.3s; }
+.jm-porto-dot.active { width: 16px; border-radius: 4px; background: var(--gold-light); }
 
 /* ── SOBRE ── */
 .jm-sobre-section {
@@ -533,6 +599,15 @@ input, select, textarea { font-size: 16px !important; }
   border-radius: 20px;
   backdrop-filter: blur(4px);
   white-space: nowrap;
+}
+
+.jm-hero-video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
 }
 
 /* ── DEPOIMENTOS ── */
@@ -797,6 +872,7 @@ input, select, textarea { font-size: 16px !important; }
   .jm-manifesto-inner { grid-template-columns: repeat(2, 1fr); }
   .jm-manifesto-item:nth-child(2) { border-right: none; }
   .jm-manifesto-item:nth-child(3) { border-top: 1px solid rgba(200, 168, 87, 0.12); }
+  .jm-porto-grid { grid-template-columns: repeat(2, 1fr); }
   .jm-sobre-section { grid-template-columns: 1fr; }
   .jm-sobre-media { height: 350px; clip-path: none !important; }
   .jm-sobre-img-parallax { inset: 0; }
@@ -833,6 +909,9 @@ input, select, textarea { font-size: 16px !important; }
   .jm-manifesto-item:nth-child(3) { border-top: 1px solid rgba(200, 168, 87, 0.12); }
   .jm-servicos-section { padding: 80px 0 80px 24px; }
   .jm-servico-card { flex: 0 0 300px; }
+  .jm-porto-section { padding: 80px 24px; }
+  .jm-porto-grid { grid-template-columns: 1fr 1fr; gap: 14px; }
+  .jm-porto-label { font-size: 1rem; }
   .jm-sobre-section { grid-template-columns: 1fr; }
   .jm-sobre-content { padding: 50px 24px; transform: none !important; }
   .jm-videos-section { padding: 80px 24px; }
@@ -858,6 +937,7 @@ input, select, textarea { font-size: 16px !important; }
   .jm-manifesto-item { border-right: none !important; border-top: 1px solid rgba(200, 168, 87, 0.12); }
   .jm-manifesto-item:first-child { border-top: none; }
   .jm-videos-grid { grid-template-columns: 1fr; max-width: 340px; margin: 0 auto; }
+  .jm-porto-grid { grid-template-columns: 1fr; max-width: 360px; margin: 0 auto; }
 }
 
 @media (prefers-reduced-motion: reduce) {
