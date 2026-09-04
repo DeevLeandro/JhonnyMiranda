@@ -8,6 +8,7 @@ gsap.registerPlugin(ScrollTrigger);
 
 const WHATSAPP = '5547996235368';
 const INSTAGRAM = 'https://www.instagram.com/studio_jhonny_miranda_camboriu/';
+const REELS = 'https://www.instagram.com/studio_jhonny_miranda_camboriu/reels/'; // aba de vídeos
 const MAPS_URL = 'https://www.google.com/maps/search/Rua+Tocantins+216+Vila+Areias+Camboriú+SC';
 
 // ── VÍDEO DO HERO ──
@@ -64,12 +65,12 @@ const servicos = [
     imgs: ['images/maquiagem-1.jpeg', 'images/maquiagem-2.jpeg', 'images/maquiagem-3.jpeg' ],
     wa: 'Olá!%20Quero%20saber%20sobre%20maquiagem.',
   },
-  {
-    id: 7, title: 'Manicure & Pedicure',
-    desc: 'Unhas impecáveis com esmaltação tradicional, em gel e nail art. Cuidado completo para mãos e pés.',
-    imgs: ['images/manicure-1.jpg', 'images/manicure-2.jpg'],
-    wa: 'Olá!%20Quero%20saber%20sobre%20manicure.',
-  },
+  //{
+//    id: 7, title: 'Manicure & Pedicure',
+//    desc: 'Unhas impecáveis com esmaltação tradicional, em gel e nail art. Cuidado completo para mãos e pés.',
+  //  imgs: ['images/manicure-1.jpg', 'images/manicure-2.jpg'],
+ //   wa: 'Olá!%20Quero%20saber%20sobre%20manicure.',
+//  },
 ];
 
 // PORTFÓLIO — as fotos nomeadas de looks/transformações.
@@ -134,10 +135,19 @@ const EmailIcon = () => (
 );
 
 // ─── VIDEO CARD ───────────────────────────────────────────────────────────────
+// Botões de ação (WhatsApp + Instagram):
+//   • Desktop (mouse): aparecem ao passar o mouse por cima (hover, via CSS).
+//   • Mobile (toque): aparecem ao tocar no vídeo; toca de novo p/ esconder.
+// O WhatsApp já leva a mensagem identificando QUAL vídeo a cliente viu.
 
 function VideoCard({ v, cardRef }) {
   const videoRef = useRef(null);
   const [playing, setPlaying] = useState(false);
+  const [showActions, setShowActions] = useState(false);
+  const canHover = useRef(
+    typeof window !== 'undefined' &&
+    window.matchMedia('(hover: hover) and (pointer: fine)').matches
+  );
 
   useEffect(() => {
     const el = videoRef.current;
@@ -152,6 +162,7 @@ function VideoCard({ v, cardRef }) {
           el.pause();
           el.currentTime = 0;
           setPlaying(false);
+          setShowActions(false); // fecha os botões ao sair da tela
         }
       },
       { threshold: 0.4 }
@@ -161,20 +172,19 @@ function VideoCard({ v, cardRef }) {
     return () => observer.disconnect();
   }, []);
 
-  const toggle = () => {
-    const el = videoRef.current;
-    if (!el) return;
-    if (el.paused) {
-      el.play().catch(() => {});
-      setPlaying(true);
-    } else {
-      el.pause();
-      setPlaying(false);
-    }
+  // Mobile: toque no vídeo abre/fecha os botões. Desktop: o hover cuida disso (CSS).
+  const handleClick = () => {
+    if (canHover.current) return;
+    setShowActions(s => !s);
   };
 
+  // mensagem do WhatsApp já identifica QUAL vídeo a cliente viu
+  const waMsg = encodeURIComponent(
+    `Olá! Quero fazer o cabelo do vídeo "${v.label}" (vídeo ${v.id}) do site 😍`
+  );
+
   return (
-    <div ref={cardRef} className="jm-video-card" onClick={toggle}>
+    <div ref={cardRef} className="jm-video-card" onClick={handleClick}>
       <video
         ref={videoRef}
         src={v.src}
@@ -185,13 +195,43 @@ function VideoCard({ v, cardRef }) {
         preload="metadata"
         style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
       />
+
+      {/* botão play (some quando os botões de ação estão abertos no mobile) */}
       <div
         className="jm-video-overlay"
-        style={{ opacity: playing ? 0 : 1, transition: 'opacity 0.3s' }}
+        style={{ opacity: showActions ? 0 : (playing ? 0 : 1), transition: 'opacity 0.3s' }}
       >
         <div className="jm-video-play">▶</div>
       </div>
-      <div className="jm-video-instagram-badge">@studio_jhonny_miranda_camboriu</div>
+
+      {/* botões de ação — hover no desktop (CSS), .show no mobile */}
+      <div className={`jm-video-actions${showActions ? ' show' : ''}`}>
+        <a
+          href={`https://wa.me/${WHATSAPP}?text=${waMsg}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="jm-video-btn jm-video-btn-wa"
+          onClick={e => e.stopPropagation()}
+        >
+          <WhatsappIcon /> Quero esse cabelo
+        </a>
+        <a
+          href={REELS}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="jm-video-btn jm-video-btn-ig"
+          onClick={e => e.stopPropagation()}
+        >
+          <InstagramIcon /> Ver no Instagram
+        </a>
+      </div>
+
+      <div
+        className="jm-video-instagram-badge"
+        style={{ opacity: showActions ? 0 : 1, transition: 'opacity 0.3s' }}
+      >
+        @studio_jhonny_miranda_camboriu
+      </div>
     </div>
   );
 }
@@ -350,9 +390,10 @@ export default function App() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
-  const [formData, setFormData] = useState({ nome: '', telefone: '', servico: '', mensagem: '' });
+  const [formData, setFormData] = useState({ nome: '', telefone: '', servico: '', data: '', horario: '', mensagem: '' });
   const [submitted, setSubmitted] = useState(false);
   const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const hoje = new Date().toISOString().split('T')[0]; // bloqueia datas passadas no seletor
 
   // refs animações
   const headerRef = useRef(null);
@@ -656,14 +697,21 @@ export default function App() {
 
   const handleSubmit = e => {
     e.preventDefault();
+    // yyyy-mm-dd -> dd/mm/yyyy
+    const dataBr = formData.data
+      ? formData.data.split('-').reverse().join('/')
+      : 'A combinar';
     const msg =
       `Olá Jhonny! Vi o site e gostaria de agendar.%0A%0A` +
       `*Nome:* ${formData.nome}%0A` +
       `*Telefone:* ${formData.telefone}%0A` +
       `*Serviço:* ${formData.servico}%0A` +
-      `*Mensagem:* ${formData.mensagem || 'Sem detalhes'}`;
+      `*Dia preferido:* ${dataBr}%0A` +
+      `*Horário preferido:* ${formData.horario || 'A combinar'}%0A` +
+      `*Mensagem:* ${formData.mensagem || 'Sem detalhes'}%0A%0A` +
+      `_(Preferência de horário — no aguardo da confirmação do studio.)_`;
     wa(msg);
-    setFormData({ nome: '', telefone: '', servico: '', mensagem: '' });
+    setFormData({ nome: '', telefone: '', servico: '', data: '', horario: '', mensagem: '' });
     setSubmitted(true);
     setTimeout(() => setSubmitted(false), 5000);
   };
@@ -725,7 +773,7 @@ export default function App() {
               <em>um lugar para você</em>
             </h1>
           <div ref={heroActionsRef} className="jm-hero-actions">
-            <a href="#contato" className="jm-btn jm-btn-primary">Agendar Consulta</a>
+            <a href="#contato" className="jm-btn jm-btn-primary">Agendar Horário</a>
             <button className="jm-btn jm-btn-ghost" onClick={() => wa()}>WhatsApp</button>
           </div>
         </div>
@@ -754,7 +802,7 @@ export default function App() {
       <section ref={servicosRef} className="jm-servicos-section" id="servicos">
         <div ref={servicoLabelRef} className="jm-section-label">Especialidades</div>
         <div className="jm-section-heading-wrap">
-          <h2 ref={servicoHeadingRef} className="jm-section-heading">O que fazemos <em>melhor</em></h2>
+          <h2 ref={servicoHeadingRef} className="jm-section-heading">Nossos <em>Serviços</em></h2>
         </div>
         <div className="jm-servicos-scroll">
           {servicos.map((s, i) => (
@@ -957,6 +1005,25 @@ export default function App() {
                     <option>Outro</option>
                   </select>
                 </div>
+                <div className="jm-form-row">
+                  <div className="jm-form-field">
+                    <label>Dia preferido</label>
+                    <input
+                      type="date" name="data" required min={hoje}
+                      value={formData.data} onChange={handleChange}
+                    />
+                  </div>
+                  <div className="jm-form-field">
+                    <label>Horário preferido</label>
+                    <input
+                      type="time" name="horario" required
+                      value={formData.horario} onChange={handleChange}
+                    />
+                  </div>
+                </div>
+                <p className="jm-form-hint">
+                  Funcionamento: Seg–Sex 9h–20h · Sáb 9h–17h · Dom fechado. É só a sua preferência — confirmamos pelo WhatsApp.
+                </p>
                 <div className="jm-form-field">
                   <label>Mensagem (opcional)</label>
                   <textarea
